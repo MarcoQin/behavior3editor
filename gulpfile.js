@@ -98,7 +98,7 @@ gulp.task('_vendor_fonts', function() {
              .pipe(gulp.dest('build/fonts'))
 });
 
-gulp.task('_vendor', ['_vendor_js', '_vendor_css', '_vendor_fonts']);
+gulp.task('_vendor', gulp.series('_vendor_js', '_vendor_css', '_vendor_fonts'));
 
 
 // TASKS (PRELOAD) ============================================================
@@ -118,7 +118,7 @@ gulp.task('_preload_css', function() {
              .pipe(connect.reload())
 });
 
-gulp.task('_preload', ['_preload_js', '_preload_css']);
+gulp.task('_preload', gulp.series('_preload_js', '_preload_css'));
 
 
 // TASKS (APP) ================================================================
@@ -170,27 +170,27 @@ gulp.task('_app_html', function() {
 
 gulp.task('_app_entry', function() {
   return gulp.src(app_entry)
-             // .pipe(minifyHTML({empty:true})) 
+             // .pipe(minifyHTML({empty:true}))
              .pipe(replace('[BUILD_VERSION]', build_version))
              .pipe(replace('[BUILD_DATE]', build_date))
              .pipe(gulp.dest('build'))
              .pipe(connect.reload())
 });
 
-gulp.task('_app_dev', [
+gulp.task('_app_dev', gulp.series(
   '_app_js_dev',
   '_app_less',
   '_app_imgs',
   '_app_html',
   '_app_entry'
-]);
-gulp.task('_app_build', [
+));
+gulp.task('_app_build', gulp.series( 
   '_app_js_build',
   '_app_less',
   '_app_imgs',
   '_app_html',
   '_app_entry'
-]);
+));
 
 
 // TASKS (LIVE RELOAD) ========================================================
@@ -202,18 +202,19 @@ gulp.task('_livereload', function() {
   });
 });
 
-gulp.task('_watch', ['_livereload'], function() {
-  gulp.watch(preload_js, ['_preload_js']);
-  gulp.watch(preload_css, ['_preload_css']);
-  gulp.watch(app_js, ['_app_js_dev']);
-  gulp.watch(app_less, ['_app_less']);
-  gulp.watch(app_html, ['_app_html']);
-  gulp.watch(app_entry, ['_app_entry']);
-});
+gulp.task('_watch', gulp.series('_livereload', function() {
+  gulp.watch(preload_js, gulp.series('_preload_js'));
+  gulp.watch(preload_css, gulp.series('_preload_css'));
+  gulp.watch(app_js, gulp.series('_app_js_dev'));
+  gulp.watch(app_less, gulp.series('_app_less'));
+  gulp.watch(app_html, gulp.series('_app_html'));
+  gulp.watch(app_entry, gulp.series('_app_entry'));
+}));
 
 
 // TASKS (NODE WEBKIT) ========================================================
-gulp.task('_electron', ['build'], function(cb) {
+gulp.task('build', gulp.series('_vendor', '_preload', '_app_build'));
+gulp.task('_electron', gulp.series('build', function(cb) {
   packager({
     dir       : 'build',
     out       : '.temp-dist',
@@ -226,9 +227,9 @@ gulp.task('_electron', ['build'], function(cb) {
   }, function done(err, appPath) {
     cb(err);
   })
-});
+}));
 
-gulp.task('_electron_zip', ['_electron'], function() {
+gulp.task('_electron_zip', gulp.series('_electron', function() {
   return gulp.src('.temp-dist/*')
              .pipe(foreach(function(stream, file) {
                 var fileName = file.path.substr(file.path.lastIndexOf("/")+1);
@@ -237,10 +238,9 @@ gulp.task('_electron_zip', ['_electron'], function() {
                     .pipe(gulp.dest('./dist'));
                 return stream;
              }));
-});
+}));
 
 // COMMANDS ===================================================================
-gulp.task('build', ['_vendor', '_preload', '_app_build']);
-gulp.task('dev',   ['_vendor', '_preload', '_app_dev']);
-gulp.task('serve', ['_vendor', '_preload', '_app_dev', '_watch']);
-gulp.task('dist',  ['_electron_zip']);
+gulp.task('dev', gulp.series('_vendor', '_preload', '_app_dev'));
+gulp.task('serve', gulp.series('_vendor', '_preload', '_app_dev', '_watch'));
+gulp.task('dist', gulp.series('_electron_zip'));

@@ -39,13 +39,28 @@ b3e.editor.CameraSystem = function(editor) {
   };
 
   this.onMouseDown = function(e) {
-    if (e.nativeEvent.which !== 2) return;
+    // if (e.nativeEvent.which !== 2) return;
+    if (e.nativeEvent.which !== 1 && !e.nativeEvent.ctrlKey) return;
 
     var project = editor.project.get();
     if (!project) return;
 
     var tree = project.trees.getSelected();
     if (!tree) return;
+
+    var point = tree.view.getLocalPoint();
+    var x = point.x;
+    var y = point.y;
+    var block = tree.blocks.getUnderPoint(x, y);
+
+    // if mouse not on block
+    if (block) return;
+
+    // // if no block selected
+    // if (block._isSelected) return;
+
+    // // if mouse in anchor
+    // if (block._hitBody(x, y)) return;
 
     editor._game.canvas.className += " grabbing";
 
@@ -66,7 +81,8 @@ b3e.editor.CameraSystem = function(editor) {
     tree.y = editor._game.mouse.y - offsetY;
   };
   this.onMouseUp = function(e) {
-    if (e.nativeEvent.which !== 2) return;
+    // if (e.nativeEvent.which !== 2) return;
+    if (e.nativeEvent.which !== 1 && !e.nativeEvent.ctrlKey) return;
 
     var project = editor.project.get();
     if (!project) return;
