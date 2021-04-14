@@ -79,21 +79,21 @@ var app_entry = [
 ]
 
 // TASKS (VENDOR) =============================================================
-gulp.task('_vendor_js', function() {
+gulp.task('_vendor_js', async function() {
   return gulp.src(vendor_js)
              .pipe(uglify())
              .pipe(concat('vendor.min.js'))
              .pipe(gulp.dest('build/js'))
 });
 
-gulp.task('_vendor_css', function() {
+gulp.task('_vendor_css', async function() {
   return gulp.src(vendor_css)
              .pipe(minifyCSS())
              .pipe(concat('vendor.min.css'))
              .pipe(gulp.dest('build/css'))
 });
 
-gulp.task('_vendor_fonts', function() {
+gulp.task('_vendor_fonts', async function() {
   return gulp.src(vendor_fonts)
              .pipe(gulp.dest('build/fonts'))
 });
@@ -102,7 +102,7 @@ gulp.task('_vendor', gulp.series('_vendor_js', '_vendor_css', '_vendor_fonts'));
 
 
 // TASKS (PRELOAD) ============================================================
-gulp.task('_preload_js', function() {
+gulp.task('_preload_js', async function() {
   return gulp.src(preload_js)
              .pipe(uglify())
              .pipe(concat('preload.min.js'))
@@ -110,7 +110,7 @@ gulp.task('_preload_js', function() {
              .pipe(connect.reload())
 });
 
-gulp.task('_preload_css', function() {
+gulp.task('_preload_css', async function() {
   return gulp.src(preload_css)
              .pipe(minifyCSS())
              .pipe(concat('preload.min.css'))
@@ -122,7 +122,7 @@ gulp.task('_preload', gulp.series('_preload_js', '_preload_css'));
 
 
 // TASKS (APP) ================================================================
-gulp.task('_app_js_dev', function() {
+gulp.task('_app_js_dev', async function() {
   return gulp.src(app_js)
              .pipe(jshint())
              .pipe(jshint.reporter(stylish))
@@ -132,7 +132,7 @@ gulp.task('_app_js_dev', function() {
              .pipe(gulp.dest('build/js'))
              .pipe(connect.reload())
 });
-gulp.task('_app_js_build', function() {
+gulp.task('_app_js_build', async function() {
   return gulp.src(app_js)
              .pipe(jshint())
              .pipe(jshint.reporter(stylish))
@@ -144,7 +144,7 @@ gulp.task('_app_js_build', function() {
              .pipe(connect.reload())
 });
 
-gulp.task('_app_less', function() {
+gulp.task('_app_less', async function() {
   return gulp.src(app_less)
              .pipe(less())
              .pipe(minifyCSS())
@@ -153,12 +153,12 @@ gulp.task('_app_less', function() {
              .pipe(connect.reload())
 });
 
-gulp.task('_app_imgs', function() {
+gulp.task('_app_imgs', async function() {
   return gulp.src(app_imgs)
              .pipe(gulp.dest('build/imgs'))
 });
 
-gulp.task('_app_html', function() {
+gulp.task('_app_html', async function() {
   return gulp.src(app_html)
              .pipe(minifyHTML({empty:true}))
              .pipe(replace('[BUILD_VERSION]', build_version))
@@ -214,13 +214,13 @@ gulp.task('_watch', gulp.series('_livereload', function() {
 
 // TASKS (NODE WEBKIT) ========================================================
 gulp.task('build', gulp.series('_vendor', '_preload', '_app_build'));
-gulp.task('_electron', gulp.series('build', function(cb) {
+gulp.task('_electron', gulp.series('build', async function(cb) {
   packager({
     dir       : 'build',
     out       : '.temp-dist',
     name      : project.name,
-    platform  : 'linux,win32',
-    arch      : 'all',
+    platform  : 'darwin',
+    arch      : 'x64',
     version   : '0.34.2',
     overwrite : true,
     asar      : true
@@ -229,7 +229,7 @@ gulp.task('_electron', gulp.series('build', function(cb) {
   })
 }));
 
-gulp.task('_electron_zip', gulp.series('_electron', function() {
+gulp.task('_electron_zip', gulp.series('_electron', async function() {
   return gulp.src('.temp-dist/*')
              .pipe(foreach(function(stream, file) {
                 var fileName = file.path.substr(file.path.lastIndexOf("/")+1);

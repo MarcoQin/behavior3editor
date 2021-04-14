@@ -40,3 +40,4 @@ cache
 teste.py
 
 ignore-*
+.DS_Store
