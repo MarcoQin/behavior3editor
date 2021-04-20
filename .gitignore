@@ -41,3 +41,5 @@ teste.py
 
 ignore-*
 .DS_Store
+*.app/
+*.zip

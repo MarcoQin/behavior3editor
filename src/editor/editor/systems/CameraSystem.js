@@ -40,7 +40,7 @@ b3e.editor.CameraSystem = function(editor) {
 
   this.onMouseDown = function(e) {
     // if (e.nativeEvent.which !== 2) return;
-    if (e.nativeEvent.which !== 1 && !e.nativeEvent.ctrlKey) return;
+    if (e.nativeEvent.which !== 3 && !e.nativeEvent.ctrlKey) return;
 
     var project = editor.project.get();
     if (!project) return;
@@ -82,7 +82,7 @@ b3e.editor.CameraSystem = function(editor) {
   };
   this.onMouseUp = function(e) {
     // if (e.nativeEvent.which !== 2) return;
-    if (e.nativeEvent.which !== 1 && !e.nativeEvent.ctrlKey) return;
+    if (e.nativeEvent.which !== 3 && !e.nativeEvent.ctrlKey) return;
 
     var project = editor.project.get();
     if (!project) return;

@@ -1,6 +1,7 @@
 // var app = require('app');  // Module to control application life.
 // var BrowserWindow = require('browser-window');  // Module to create native browser window.
 var {app, BrowserWindow} = require('electron');  // Module to control application life.
+const Menu = require('electron').Menu
 
 // Report crashes to our server.
 // require('crash-reporter').start();
@@ -22,7 +23,13 @@ app.on('window-all-closed', function() {
 // initialization and is ready to create browser windows.
 app.on('ready', function() {
   // Create the browser window.
-  mainWindow = new BrowserWindow({width: 1000, height: 800});
+  mainWindow = new BrowserWindow({
+    webPreferences: {
+      nodeIntegration: true,
+      contextIsolation: false,
+  },
+    width: 1000, height: 800,
+  });
   mainWindow.webContents.openDevTools()
   // and load the index.html of the app.
   mainWindow.loadURL('file://' + __dirname + '/index.html');
@@ -37,4 +44,74 @@ app.on('ready', function() {
     // when you should delete the corresponding element.
     mainWindow = null;
   });
+  createMenu();
 });
+
+
+function createMenu() {
+  const application = {
+    label: "Application",
+    submenu: [
+      {
+        label: "About Application",
+        selector: "orderFrontStandardAboutPanel:"
+      },
+      {
+        type: "separator"
+      },
+      {
+        label: "Quit",
+        accelerator: "Command+Q",
+        click: () => {
+          app.quit()
+        }
+      }
+    ]
+  }
+
+  const edit = {
+    label: "Edit",
+    submenu: [
+      {
+        label: "Undo",
+        accelerator: "CmdOrCtrl+Z",
+        selector: "undo:"
+      },
+      {
+        label: "Redo",
+        accelerator: "Shift+CmdOrCtrl+Z",
+        selector: "redo:"
+      },
+      {
+        type: "separator"
+      },
+      {
+        label: "Cut",
+        accelerator: "CmdOrCtrl+X",
+        selector: "cut:"
+      },
+      {
+        label: "Copy",
+        accelerator: "CmdOrCtrl+C",
+        selector: "copy:"
+      },
+      {
+        label: "Paste",
+        accelerator: "CmdOrCtrl+V",
+        selector: "paste:"
+      },
+      {
+        label: "Select All",
+        accelerator: "CmdOrCtrl+A",
+        selector: "selectAll:"
+      }
+    ]
+  }
+
+  const template = [
+    application,
+    edit
+  ]
+
+  Menu.setApplicationMenu(Menu.buildFromTemplate(template))
+}
