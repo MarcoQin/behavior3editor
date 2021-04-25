@@ -102,14 +102,13 @@ b3e.editor.CameraSystem = function(editor) {
 
     var tree = project.trees.getSelected();
     if (!tree) return;
-
-    if (e.ctrlKey) {
+    // if (e.ctrlKey || e.metaKey) {
       if ((e.wheelDeltaY||e.deltaY) > 0) {
         tree.view.zoomIn();
       } else {
         tree.view.zoomOut();
       }
-    }
+    // }
   };
 
 

@@ -11,7 +11,8 @@
   var DEFAULT_SETTINGS = {
     // CAMERA
     zoom_initial : 1.0,
-    zoom_min     : 0.25,
+    // zoom_min     : 0.25,
+    zoom_min     : 0.1,
     zoom_max     : 2.0,
     zoom_step    : 0.25,
     
@@ -20,7 +21,7 @@
     snap_y        : 12,
     snap_offset_x : 0,
     snap_offset_y : 0,
-    layout        : 'horizontal', // vertical
+    layout        : 'vertical', // vertical / horizontal
     max_history   : 100,
 
     // COLORS
