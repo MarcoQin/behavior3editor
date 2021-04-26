@@ -116,8 +116,13 @@
         settings.get('anchor_border_width'),
         settings.get('block_border_color')
     );
+    var color = settings.get('composite_color');
+    if (block._isHighlighted) {
+       color =  settings.get('highlight_color');
+    }
     makeRect(shape, w, h, 15,
-        settings.get('composite_color'),
+        // settings.get('composite_color'),
+        color,
         settings.get('block_border_width'),
         settings.get('block_border_color')
     );
@@ -153,9 +158,13 @@
         settings.get('anchor_border_width'),
         settings.get('block_border_color')
     );
-    
+    var color = settings.get('decorator_color');
+    if (block._isHighlighted) {
+       color =  settings.get('highlight_color');
+    }
     makeRhombus(shape, w, h,
-        settings.get('decorator_color'),
+        // settings.get('decorator_color'),
+        color,
         settings.get('block_border_width'),
         settings.get('block_border_color')
     );
@@ -185,8 +194,13 @@
         settings.get('anchor_border_width'),
         settings.get('block_border_color')
     );
+    var color = settings.get('action_color');
+    if (block._isHighlighted) {
+       color =  settings.get('highlight_color');
+    }
     makeRect(shape, w, h, 15,
-        settings.get('action_color'),
+        // settings.get('action_color'),
+        color,
         settings.get('block_border_width'),
         settings.get('block_border_color')
     );
@@ -209,8 +223,13 @@
         settings.get('anchor_border_width'),
         settings.get('block_border_color')
     );
+    var color = settings.get('condition_color');
+    if (block._isHighlighted) {
+       color =  settings.get('highlight_color');
+    }
     makeEllipse(shape, w, h, 
-        settings.get('condition_color'),
+        // settings.get('condition_color'),
+        color,
         settings.get('block_border_width'),
         settings.get('block_border_color')
     );
@@ -239,8 +258,13 @@
         settings.get('anchor_border_width'),
         settings.get('block_border_color')
     );
+    var color = settings.get('tree_color');
+    if (block._isHighlighted) {
+       color =  settings.get('highlight_color');
+    }
     makeTree(shape, w, h, 15,
-        settings.get('tree_color'),
+        // settings.get('tree_color'),
+        color,
         settings.get('block_border_width'),
         settings.get('block_border_color')
     );

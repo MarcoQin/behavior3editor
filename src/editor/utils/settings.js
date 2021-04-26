@@ -31,6 +31,8 @@
     block_symbol_color      : '#333333',
     anchor_background_color : '#EFEFEF',
 
+    highlight_color:          '#ffa500',
+
     connection_color        : '#6D6D6D',
     root_color              : '#FFFFFF',
     decorator_color         : '#FFFFFF',

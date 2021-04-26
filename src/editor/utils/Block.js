@@ -34,6 +34,8 @@
     this._displayShape = new createjs.Shape();
     this._displaySymbol = null;
     this._displayShadow = null;
+    this._highlightShadow = null;
+    this._isHighlighted = false;
   };
   var p = createjs.extend(Block, createjs.Container);
   
@@ -49,6 +51,8 @@
 
     var color = this._settings.get('selection_color');
     this._displayShadow = new createjs.Shadow(color, 0, 0, 5);
+    // this._highlightShadow = new createjs.Shadow("#ffa500", 0, 0, 20);
+    this._highlightShadow = new createjs.Shadow("#ffffff", 0, 0, 20);
     this._redraw();
   };
 
@@ -155,6 +159,19 @@
   p._select = function() {
     this._isSelected = true;
     this._displayShape.shadow = this._displayShadow;
+    // this._displayShape.shadow = this._highlightShadow;
+  };
+
+  p._highlight = function () {
+    this._isHighlighted = true;
+    this._displayShape.shadow = this._highlightShadow;
+    this._redraw();
+  };
+
+  p._dehighlight = function() {
+    this._isHighlighted = false;
+    this._displayShape.shadow = null;
+    this._redraw();
   };
 
   /**

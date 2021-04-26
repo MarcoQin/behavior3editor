@@ -45,6 +45,34 @@
     this._applySettings(this._editor._settings);
     this.history.clear();
     this._editor.clearDirty();
+
+    var p = this;
+    // console.log(this.trees);
+    // console.log(this);
+    // console.log('create event listener');
+    var ipcRenderer = require('electron').ipcRenderer;
+    ipcRenderer.removeAllListeners();
+    ipcRenderer.on('debug-message', function (event, msg) {
+      var s = new TextDecoder().decode(msg);
+      // console.log(s);
+      // console.log(p.trees);
+      var data = s.split(",");
+      // console.log(s.split(","));
+      
+      var t = p.trees.get(data[1]);
+      // console.log('get tree', t);
+      var node = t.blocks.get(data[2]);
+      // console.log(node);
+      if (node) {
+        if (data[0] == '+') {
+          node._highlight();
+        } else {
+          node._dehighlight();
+        }
+      }
+      // var t = p.trees.getSelected();
+      // console.log(t);
+    });
   };
 
   p._applySettings = function(settings) {

@@ -21,7 +21,7 @@
                              projectModel,
                              notificationService) {
     var vm = this;
-    vm.onNewTree           = onNewTree;
+    vm.onNewTree = onNewTree;
     vm.onCloseProject      = onCloseProject;
     vm.onBackToProject     = onBackToProject;
     vm.onSaveProject       = onSaveProject;
