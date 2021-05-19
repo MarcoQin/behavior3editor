@@ -10,7 +10,8 @@ function nodejsService($window) {
   var ok = !!$window.require;
   const { remote } = require('electron');
   // var remote = (ok?$window.require('remote'):null);
-  const { dialog } = require('electron');
+  // const { dialog } = require('electron')
+  var dialog = remote.dialog;
   var service = {
     ok   : ok,
     fs   : (ok?$window.require('fs'):null),

@@ -27,6 +27,24 @@ b3e.tree.ViewManager = function(editor, project, tree) {
     var zoom = tree.scaleX;
     this.zoom(tine.clip(zoom-step, min, max));
   };
+
+  this.zoomInMac = function(n) {
+    var min = editor._settings.get('zoom_min');
+    var max = editor._settings.get('zoom_max');
+    var step = editor._settings.get('zoom_step');
+    
+    var zoom = tree.scaleX;
+    
+    this.zoom(tine.clip(zoom+n*0.01, min, max));
+  };
+  this.zoomOutMac = function(n) {
+    var min = editor._settings.get('zoom_min');
+    var max = editor._settings.get('zoom_max');
+    var step = editor._settings.get('zoom_step');
+    
+    var zoom = tree.scaleX;
+    this.zoom(tine.clip(zoom-n*0.01, min, max));
+  };
   this.pan = function(dx, dy) {
     tree.x += dx;
     tree.y += dy;

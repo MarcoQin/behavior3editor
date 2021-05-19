@@ -102,12 +102,22 @@ b3e.editor.CameraSystem = function(editor) {
 
     var tree = project.trees.getSelected();
     if (!tree) return;
+
+    if (e.ctrlKey || e.metaKey) {
+      tree.view.zoomInMac(-e.deltaY);
+    } else {
+      tree.x -= e.deltaX;
+      tree.y -= e.deltaY;
+    }
+
     // if (e.ctrlKey || e.metaKey) {
-      if ((e.wheelDeltaY||e.deltaY) > 0) {
-        tree.view.zoomIn();
-      } else {
-        tree.view.zoomOut();
-      }
+    // console.log(e.deltaY);
+    
+      // if ((e.wheelDeltaY||e.deltaY) > 0) {
+      //   tree.view.zoomIn();
+      // } else {
+      //   tree.view.zoomOut();
+      // }
     // }
   };
 

@@ -11,6 +11,8 @@
     this._clipboard = null;
     this._nodes = {};
 
+    this.debugIndex = "";
+
     // Managers
     this.trees = null;
     this.nodes = null;
@@ -58,7 +60,9 @@
       // console.log(p.trees);
       var data = s.split(",");
       // console.log(s.split(","));
-      
+      if (data[3] != p.debugIndex) {
+        return;
+      }
       var t = p.trees.get(data[1]);
       // console.log('get tree', t);
       var node = t.blocks.get(data[2]);

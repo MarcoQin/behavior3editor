@@ -13,6 +13,10 @@
 
   <div class="node-list">
     <div class="form-group">
+      <input type="text" class="form-control" name="title" placeholder="Debug Index"
+        ng-model="nodespanel.debugIndex" ng-change="nodespanel.onDebugIndexChanged()">
+    </div>
+    <div class="form-group">
       <input type="text" class="form-control" name="title" placeholder="Search"
         ng-model="nodespanel.filter" ng-change="nodespanel.search()">
     </div>

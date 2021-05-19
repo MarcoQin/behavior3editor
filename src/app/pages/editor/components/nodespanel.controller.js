@@ -24,7 +24,9 @@
     vm.select  = select;
     vm.remove  = remove;
     vm.search  = search;
-    vm.filter  = "";
+    vm.filter = "";
+    vm.debugIndex = "";
+    vm.onDebugIndexChanged = onDebugIndexChanged;
 
     _create();
     _activate();
@@ -145,6 +147,12 @@
 
     function search(){
       _activate();
+    }
+
+    function onDebugIndexChanged() {
+      var p = $window.editor.project.get();
+      console.log(p, vm.debugIndex);
+      p.debugIndex = vm.debugIndex;
     }
 
     function _serachFilter(node){
